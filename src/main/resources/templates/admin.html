@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>username</th>
+        <th>name</th>
+        <th>surname</th>
+        <th>age</th>
+        <th>actions</th>
+    </tr>
+    <tr th:each="user : ${allUsers}">
+        <td th:utext="${user.getUsername()}">username</td>
+        <td th:utext="${user.getName()}">name</td>
+        <td th:utext="${user.getSurname()}">surname</td>
+        <td th:utext="${user.getAge()}">age</td>
+        <td>
+<!--            <a th:href="@{/{id}/edit(id=${user.getId()})}">Edit</a>-->
+            <form th:method="GET" th:action="@{/{id}/edit(id=${user.getId()})}">
+                <input type="submit" value="Edit"/>
+            </form>
+            <form th:method="DELETE" th:action="@{/{id}(id=${user.getId()})}">
+                <input type="submit" value="Delete"/>
+            </form>
+        </td>
+    </tr>
+
+</table>
+<br/>
+<!--<a href="/new">Add user</a>-->
+<form th:method="GET" th:action="@{/registration}">
+    <input type="submit" value="Add"/>
+</form>
+
+<br>
+
+<a href="/logout">Logout</a>
+
+</body>
+</html>

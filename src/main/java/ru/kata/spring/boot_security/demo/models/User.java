@@ -1,11 +1,14 @@
 package ru.kata.spring.boot_security.demo.models;
 
 
-import jakarta.persistence.*;
+import javax.persistence.*;
+
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -14,21 +17,47 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "username")
     private String username;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "surname")
+    private String surname;
+
+    @Column(name = "age")
+    private int age;
+
     @Column(name = "password")
     private String password;
 
-    @Transient
-    private String passwordConfirm;
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
 
     public User() {
+    }
+    public User(String username, String name, String surname, int age, String password) {
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.password = password;
+    }
+    public User(String username, String name, String surname, int age, String password, Set<Role> roles) {
+        this.username = username;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.password = password;
+        this.roles = roles;
     }
 
     public int getId() {
@@ -57,13 +86,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getPasswordConfirm() {
-        return passwordConfirm;
-    }
-
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
-    }
 
     public Set<Role> getRoles() {
         return roles;
@@ -73,9 +95,33 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return getRoles();
     }
 
     @Override
