@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -44,6 +45,7 @@ public class User implements UserDetails {
 
     public User() {
     }
+
     public User(String username, String name, String surname, int age, String password) {
         this.username = username;
         this.name = name;
@@ -51,6 +53,7 @@ public class User implements UserDetails {
         this.age = age;
         this.password = password;
     }
+
     public User(String username, String name, String surname, int age, String password, Set<Role> roles) {
         this.username = username;
         this.name = name;
@@ -142,5 +145,18 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && age == user.age && Objects.equals(username, user.username) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, name, surname, age, password, roles);
     }
 }

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
-import ru.kata.spring.boot_security.demo.services.RoleService;
-import ru.kata.spring.boot_security.demo.services.UserService;
+import ru.kata.spring.boot_security.demo.services.RoleServiceImpl;
+import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
 
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
@@ -13,13 +13,13 @@ import java.util.Set;
 
 @Component
 public class DBInit {
-    private final UserService userService;
-    private final RoleService roleService;
+    private final UserServiceImpl userServiceImpl;
+    private final RoleServiceImpl roleServiceImpl;
 
     @Autowired
-    public DBInit(UserService userService, RoleService roleService) {
-        this.userService = userService;
-        this.roleService = roleService;
+    public DBInit(UserServiceImpl userServiceImpl, RoleServiceImpl roleServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
+        this.roleServiceImpl = roleServiceImpl;
     }
     @PostConstruct
     public void initDB() {
@@ -29,8 +29,8 @@ public class DBInit {
         Set<Role> adminSet = new HashSet<>();
         Set<Role> userSet = new HashSet<>();
 
-        roleService.addRole(roleAdmin);
-        roleService.addRole(roleUser);
+        roleServiceImpl.addRole(roleAdmin);
+        roleServiceImpl.addRole(roleUser);
 
         adminSet.add(roleAdmin);
         adminSet.add(roleUser);
@@ -43,8 +43,8 @@ public class DBInit {
         User user = new User("Ployka", "Ivan", "Egorov", 24, "user", userSet);
         admin.setId(1);
 
-        userService.saveUser(admin);
-        userService.saveUser(user);
+        userServiceImpl.saveUser(admin);
+        userServiceImpl.saveUser(user);
     }
 
 }
