@@ -37,10 +37,10 @@ public class DBInit {
 
         userSet.add(roleUser);
 
-        User admin = new User("Laddir", "Yegor", "Zyghan", 23, "admin", adminSet);
+        User admin = new User("Admin", "admin", "admin", 23, "admin", adminSet);
         admin.setId(2);
 
-        User user = new User("Ployka", "Ivan", "Egorov", 24, "user", userSet);
+        User user = new User("User", "user", "user", 24, "user", userSet);
         admin.setId(1);
 
         userServiceImpl.saveUser(admin);

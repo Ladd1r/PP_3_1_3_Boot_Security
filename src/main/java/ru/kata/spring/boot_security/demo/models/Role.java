@@ -67,7 +67,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return name;
+        return id == 1 ? "USER" : "ADMIN";
     }
 
     @Override

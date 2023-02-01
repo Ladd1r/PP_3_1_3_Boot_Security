@@ -7,18 +7,18 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-import ru.kata.spring.boot_security.demo.services.UserDetailServiceImpl;
 
 import java.util.Collections;
 
 @Component
 public class AuthProviderImpl implements AuthenticationProvider {
-    private final UserDetailServiceImpl userDetailServiceImpl;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    public AuthProviderImpl(UserDetailServiceImpl userDetailServiceImpl) {
-        this.userDetailServiceImpl = userDetailServiceImpl;
+    public AuthProviderImpl(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 
 
@@ -26,7 +26,7 @@ public class AuthProviderImpl implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
 
-        UserDetails userDetails = userDetailServiceImpl.loadUserByUsername(username);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         String password = authentication.getCredentials().toString();
 
